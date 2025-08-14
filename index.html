@@ -32,15 +32,16 @@
             <tr>
               <th>Producto</th>
               <th>Cantidad</th>
-              <th>Precio Unitario ($)</th>
-              <th>Subtotal ($)</th>
+              <th>Precio Costo ($)</th>
+              <th>Precio Venta ($)</th>
+              <th>Subtotal Costo ($)</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody></tbody>
           <tfoot>
             <tr>
-              <th colspan="3" class="text-end">Total:</th>
+              <th colspan="4" class="text-end">Total Costo:</th>
               <th id="total">0</th>
               <th></th>
             </tr>
@@ -104,7 +105,7 @@
   </div>
 
   <script>
-    // Cargar inventario y ventas desde localStorage o usar valores iniciales
+    // Datos iniciales
     let inventario = JSON.parse(localStorage.getItem('inventario')) || [
       { nombre: "Bandeja de ojitos medianos", cantidad: 2, precio: 150 },
       { nombre: "Bandeja de alfajor de maicena mediano", cantidad: 1, precio: 240 },
@@ -132,6 +133,7 @@
 
       inventario.forEach((item, index) => {
         const subtotal = item.cantidad * item.precio;
+        const precioVentaUnidad = item.precio + 50;
         total += subtotal;
         totalProductos += item.cantidad;
 
@@ -140,6 +142,7 @@
           <td>${item.nombre}</td>
           <td>${item.cantidad}</td>
           <td>${item.precio}</td>
+          <td>${precioVentaUnidad}</td>
           <td>${subtotal}</td>
           <td>
             <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${index})">Eliminar</button>
@@ -150,8 +153,6 @@
       });
 
       document.getElementById("total").innerText = total;
-
-      // Actualizar dashboard
       document.getElementById("totalInventario").innerText = total;
       document.getElementById("totalProductos").innerText = totalProductos;
     }
